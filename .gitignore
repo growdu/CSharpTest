@@ -1,0 +1,6 @@
+bin/
+debug/
+*.exe
+*.dll
+*.pdb
+\.vs/
