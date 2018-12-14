@@ -30,6 +30,10 @@ namespace WinFormTest
 
         private void button1_Click(object sender, EventArgs e)
         {
+            char c = '中';
+            string text = "";
+            text += c;
+            MessageBox.Show(text);
             try
             {
                 if (true)
