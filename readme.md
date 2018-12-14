@@ -1,3 +1,3 @@
-This is some test about CSharp when I work.
+This is some tests about CSharp when I work.
 
-Sometimes,I forgot some details about string or encode,then I would build some test.
+Sometimes,I forgot some details about string or encode,then I  build these tests.
