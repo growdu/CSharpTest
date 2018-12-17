@@ -14,15 +14,16 @@ namespace StringTest
             var keys = new Regex("[0-9]{4,12}").Matches(text);
             foreach (var key in keys)
             {
+                int i = text.IndexOf(key.ToString());
                 char c = text[text.IndexOf(key.ToString()) + key.ToString().Length];
                 if (c == '-' || c == '_' || c == '-'||key.ToString().Length>=5)
                 {
                     text = text.Replace(key.ToString(), "");
                 }
             }
-            bool ok = number.IsMatch(text);
-                string t = number.Match(text).ToString();
-            return t;
+            //bool ok = number.IsMatch(text);
+            //    string t = number.Match(text).ToString();
+            return text;
         }
 
         public static string GetTitle(string text)
