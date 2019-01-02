@@ -1,6 +1,6 @@
 ﻿namespace WinFormTest
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -61,7 +61,7 @@
             this.webBrowser1.Size = new System.Drawing.Size(314, 379);
             this.webBrowser1.TabIndex = 2;
             // 
-            // Form1
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,8 +69,8 @@
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "frmMain";
+            this.Text = "窗口练习";
             this.ResumeLayout(false);
 
         }

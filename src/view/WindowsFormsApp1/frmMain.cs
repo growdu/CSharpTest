@@ -1,5 +1,4 @@
-﻿using FundExtract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +14,7 @@ using System.Windows.Forms;
 
 namespace WinFormTest
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
         [DllImport("kernel32.dll", EntryPoint = "GetSystemDefaultLCID")]
         public static extern int GetSystemDefaultLCID();
@@ -23,7 +22,7 @@ namespace WinFormTest
         [DllImport("kernel32.dll", EntryPoint = "SetLocaleInfoA")]
         public static extern int SetLocaleInfo(int Locale, int LCType, string lpLCData);
 
-        public Form1()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -61,7 +60,7 @@ namespace WinFormTest
 中融基金管理有限公司关于旗下部分基金增加财通证券股份有限公司为销售机构并开展费率优惠活动的公告.pdf";
             try
             {
-                FundData fund = FundData.Extract(path);
+                //FundData fund = FundData.Extract(path);
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString()+ex.StackTrace);
