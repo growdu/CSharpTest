@@ -59,11 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChineseCalendar.cs" />
-    <Compile Include="dgvTest.cs">
+    <Compile Include="frmDgvTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dgvTest.Designer.cs">
-      <DependentUpon>dgvTest.cs</DependentUpon>
+    <Compile Include="frmDgvTest.Designer.cs">
+      <DependentUpon>frmDgvTest.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -73,8 +73,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="dgvTest.resx">
-      <DependentUpon>dgvTest.cs</DependentUpon>
+    <EmbeddedResource Include="frmDgvTest.resx">
+      <DependentUpon>frmDgvTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

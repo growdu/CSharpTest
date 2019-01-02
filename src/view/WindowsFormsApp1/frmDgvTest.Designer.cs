@@ -41,6 +41,12 @@
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.Size = new System.Drawing.Size(795, 323);
             this.dgvData.TabIndex = 0;
+            this.dgvData.DataSourceChanged += new System.EventHandler(this.dgvData_DataSourceChanged);
+            this.dgvData.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvData_CellPainting);
+            this.dgvData.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellValueChanged);
+            this.dgvData.CurrentCellChanged += new System.EventHandler(this.dgvData_CurrentCellDirtyStateChanged);
+            this.dgvData.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvData_DataBindingComplete);
+            this.dgvData.Layout += new System.Windows.Forms.LayoutEventHandler(this.dgvData_Layout);
             // 
             // button1
             // 
