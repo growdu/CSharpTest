@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E4A7504-3F18-48A4-B243-76CE5594247E}</ProjectGuid>
+    <ProjectGuid>{F0377F2C-1859-4527-AD84-5C1A6F3041BC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>DelegateTest</RootNamespace>
-    <AssemblyName>DelegateTest</AssemblyName>
+    <RootNamespace>LambdaTest</RootNamespace>
+    <AssemblyName>LambdaTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,9 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionTest.cs" />
-    <Compile Include="FuncTest.cs" />
-    <Compile Include="PredicateTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

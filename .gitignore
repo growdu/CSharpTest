@@ -4,3 +4,4 @@ debug/
 *.dll
 *.pdb
 \.vs/
+*.lnk

@@ -9,7 +9,10 @@ namespace LinqTest
     {
         static void Main(string[] args)
         {
-            //linq筛选数据
+            var obj = new { Guid.Empty, myTitle = "匿名类型", myOtherParam = new int[] { 1, 2, 3, 4 } };
+            Console.WriteLine(obj.Empty);//另一个对象的属性名字，被原封不动的拷贝到匿名对象中来了。
+            Console.WriteLine(obj.myTitle);
+            Console.ReadKey();
             List<int> array = new List<int> { 1, 2, 3, 4, 5 };
             var greatThan3 =
                 from a in array
