@@ -10,7 +10,9 @@ namespace FileTest
     {
         static void Main(string[] args)
         {
-            string fullName = @"C:\Users\duanys\Desktop\基金定报\2018\201812\20181210\基金公告\2018\12\10\博时\20181211临时公告.7z";
+            string name = @"C:\Users\duanys\Desktop\港股pdf无表格线解析\页脚未去除.pdf";
+            PdfParse.Extract(name);
+            string fullName = @"C:博时\20181211临时公告.7z";
             FileInfo f = new FileInfo(fullName);
             string path = f.DirectoryName + "\\";
             if (true)

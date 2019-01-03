@@ -32,6 +32,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="commons-logging">
+      <HintPath>..\..\..\dll\commons-logging.dll</HintPath>
+    </Reference>
+    <Reference Include="fontbox-1.8.9">
+      <HintPath>..\..\..\dll\fontbox-1.8.9.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\..\..\dll\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT">
+      <HintPath>..\..\..\dll\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>..\..\..\dll\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>..\..\..\dll\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="pdfbox-1.8.9">
+      <HintPath>..\..\..\dll\pdfbox-1.8.9.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseOpreate.cs" />
+    <Compile Include="PdfParse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,7 +46,7 @@ namespace ExtractCodeTest
             }
 
 
-            string path = @"\\dmp1\resource\pdf\证券时报Ftp-基金\基金定报\2018\201811\20181130\基金公告\2018\11\30\";
+            string path = @"2018\201811\20181130\基金公告\2018\11\30\";
             string date = GetDate(path);
             string s = ConvertDate(date);
             DateTime dateTime = Convert.ToDateTime(ConvertDate(date));
