@@ -39,8 +39,9 @@ namespace FileTest
             this.setStartPage(pageNumber);
             this.setEndPage(pageNumber);
             this.document = document;
+            PDFTextStripper stripper = new Test();
             Writer dumpy = new OutputStreamWriter(new ByteArrayOutputStream());
-            this.writeText(document, dumpy);
+            stripper.writeText(document, dumpy);
         }
 
         public void Process(int pageNum, File file)
@@ -68,22 +69,16 @@ namespace FileTest
             }
         }
 
-
-        protected  internal override void writeString(string text, List textPositions)
+        protected override void writeString(string text, List textPositions)
         {
-
+            for (int i = 0; i < textPositions.size(); i++)
+            {
+                TextPosition textPosition = (TextPosition)textPositions.get(i);
+                string content = textPosition.getCharacter();
+                float x = textPosition.getXDirAdj();
+                System.Console.WriteLine(content + "\nx:" + x + "\ty:" + textPosition.getY());
+            }
         }
-
-        //protected override void writeString(string text, List textPositions)
-        //{
-        //    for (int i = 0; i < textPositions.size(); i++)
-        //    {
-        //        TextPosition textPosition = (TextPosition)textPositions.get(i);
-        //        string content = textPosition.getCharacter();
-        //        float x = textPosition.getXDirAdj();
-        //        System.Console.WriteLine(content+"\nx:"+x+"\ty:"+textPosition.getY());
-        //    }
-        //}
     }
 
 }
