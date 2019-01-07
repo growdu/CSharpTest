@@ -10,7 +10,8 @@ namespace FileTest
     {
         static void Main(string[] args)
         {
-            string name = @"C:\Users\duanys\Desktop\港股pdf无表格线解析\页脚未去除.pdf";
+            XmlTest.CreateXml();
+            string name = @".\页脚未去除.pdf";
             PdfParse.Extract(name);
             string fullName = @"C:博时\20181211临时公告.7z";
             FileInfo f = new FileInfo(fullName);
