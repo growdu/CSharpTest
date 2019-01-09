@@ -15,7 +15,7 @@ namespace WinFormTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmDgvTest());
+            Application.Run(new frmMain());
         }
     }
 }

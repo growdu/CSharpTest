@@ -14,12 +14,55 @@ namespace FileTest
     /// </summary>
     public class PdfParse
     {
-        public static void Extract(string file)
+        /// <summary>
+        /// pdf文本内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
+        /// pdf按页存储的文本内容字典
+        /// </summary>
+        public Dictionary<int, string> Pages { get; set; }
+
+        /// <summary>
+        /// pdf文本内容及坐标，按页存放
+        /// </summary>
+        public Dictionary<int, List<Node>> TextPosition { get; set; }
+
+        private string _path = string.Empty;
+
+        /// <summary>
+        /// 解析pdf内容
+        /// </summary>
+        /// <param name="path">pdf文件路径</param>
+        public PdfParse(string path)
         {
-            File doc = new File(file);
-            PDDocument pdf = PDDocument.load(doc);
-            Test test = new Test();
-            test.extract(pdf,0);
+            Pages = new Dictionary<int, string>();
+            TextPosition = new Dictionary<int, List<Node>>();
+            _path = path;
+            if (!_path.EndsWith(".pdf") && !_path.EndsWith(".PDF"))
+                return;
+
+            Run();
+        }
+
+        private void Run()
+        {
+            PDDocument doc = PDDocument.load(_path);
+            for (int i = 1; i <= doc.getNumberOfPages(); i++)
+            {
+                ExtractText et = new ExtractText();
+                et.Extract(doc, i);
+                TextPosition.Add(i, et._nodes);
+                Pages.Add(i, et._text);
+            }
+            if (Pages == null)
+                return;
+
+            for (int i = 1; i <= Pages.Keys.Count; i++)
+            {
+                Content += Pages[i];
+            }
         }
     }
 

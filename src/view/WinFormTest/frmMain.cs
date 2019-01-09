@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -29,6 +30,20 @@ namespace WinFormTest
 
         private void button1_Click(object sender, EventArgs e)
         {
+            try
+            {
+                FileInfo fi = new FileInfo(@"\\dmp1\resource\pdf\上清所\上清所-信息披露-发行情况报告\2018\201812\20181229\2018-12-27 包商银行股份有限公司2018年第358期同业存单发行情况公告.pdf");
+                long length = fi.Length;
+                string lasttime = fi.LastWriteTime.ToLongDateString();
+                Console.WriteLine(length + "\n" + lasttime);
+                Console.ReadKey();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace + ex.ToString());
+            }
+            MessageBox.Show("....","正在下载");
             char c = '中';
             string text = "";
             text += c;
