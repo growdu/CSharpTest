@@ -4,3 +4,4 @@ debug/
 *.pdb
 \.vs/
 *.lnk
+obj/
