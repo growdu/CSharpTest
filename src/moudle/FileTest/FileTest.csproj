@@ -65,6 +65,7 @@
     <Compile Include="BaseOpreate.cs" />
     <Compile Include="DirTest.cs" />
     <Compile Include="ExtractText.cs" />
+    <Compile Include="FormatFactory.cs" />
     <Compile Include="PdfParse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

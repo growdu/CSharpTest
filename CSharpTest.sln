@@ -24,9 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcTest", "src\moudle\GcTest\GcTest.csproj", "{093B336C-09CD-4C13-8D4C-ECC52478F2D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4CAC62A0-DE1C-4EB8-B855-2CBD3EEC7701}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moudle", "moudle", "{BA49ADA9-BEE1-4D5F-99D3-7E11A6916244}"
 EndProject
