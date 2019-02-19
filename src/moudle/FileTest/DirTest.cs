@@ -6,8 +6,14 @@ using System.Text;
 
 namespace FileTest
 {
-    class DirTest
+    /// <summary>
+    /// 目录测试
+    /// </summary>
+    public class DirTest
     {
+        /// <summary>
+        /// 遍历目录
+        /// </summary>
         public static void TravelDir()
         {
             string fullName = @"C:博时\20181211临时公告.7z";

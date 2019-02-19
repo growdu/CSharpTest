@@ -9,7 +9,7 @@ namespace FileTest
     public class FormatFactory
     {
         /// <summary>
-        /// 将html文本转化为 文本内容方法NoHTML
+        /// 将html文本转化为 文本内容方法HTML2TXT
         /// </summary>
         /// <param name="Htmlstring">HTML文本值</param>
         /// <returns></returns>

@@ -9,6 +9,9 @@ using System.Text;
 
 namespace FileTest
 {
+    /// <summary>
+    /// pdf内容提取
+    /// </summary>
     public class ExtractText : PDFTextStripper
     {
         public List<Node> _nodes = null;

@@ -8,6 +8,9 @@ namespace StringTest
 {
     class JsonFormat
     {
+        /// <summary>
+        /// 将字符串转换为json
+        /// </summary>
         public static void StringToJson()
         {
             string te = "media\"N\"ame";
