@@ -9,8 +9,15 @@ using System.Text;
 
 namespace TCPTest
 {
+    /// <summary>
+    /// 代理测试，.net4没有System.Net.Http
+    /// </summary>
     class ProxyZhiMaTest
     {
+        /// <summary>
+        /// 代理测试
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             HttpClient hc = new HttpClient();

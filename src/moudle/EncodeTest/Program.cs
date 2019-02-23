@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace EncodeTest
@@ -26,6 +27,13 @@ namespace EncodeTest
             return text;
         }
 
+        /// <summary>
+        /// 将一种字符串的编码格式转换为另一种
+        /// </summary>
+        /// <param name="str">需转换的字符串</param>
+        /// <param name="originalEncode">原编码格式</param>
+        /// <param name="targetEncode">目标编码格式</param>
+        /// <returns></returns>
         private string TransferStr(string str, Encoding originalEncode, Encoding targetEncode)
         {
             try
@@ -41,6 +49,20 @@ namespace EncodeTest
             {
                 Console.WriteLine("There is an exception.");
                 return "";
+            }
+        }
+
+
+        private string CreateToken(string message, string secret)
+        {
+            secret = secret ?? "";
+            var encoding = new System.Text.ASCIIEncoding();
+            byte[] keyByte = encoding.GetBytes(secret);
+            byte[] messageBytes = encoding.GetBytes(message);
+            using (var hmacsha256 = new HMACSHA256(keyByte))
+            {
+                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+                return Convert.ToBase64String(hashmessage);
             }
         }
 
