@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapter", "adapter", "{8AD2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaTest", "src\moudle\LambdaTest\LambdaTest.csproj", "{F0377F2C-1859-4527-AD84-5C1A6F3041BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTest", "src\moudle\TimeTest\TimeTest.csproj", "{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{F0377F2C-1859-4527-AD84-5C1A6F3041BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0377F2C-1859-4527-AD84-5C1A6F3041BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0377F2C-1859-4527-AD84-5C1A6F3041BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{0CE4ACF9-F547-41BB-BC10-8A6F80FFA07B} = {4CAC62A0-DE1C-4EB8-B855-2CBD3EEC7701}
 		{8AD2B662-7F83-45B1-BB53-A1D0D9C1B43E} = {4CAC62A0-DE1C-4EB8-B855-2CBD3EEC7701}
 		{F0377F2C-1859-4527-AD84-5C1A6F3041BC} = {BA49ADA9-BEE1-4D5F-99D3-7E11A6916244}
+		{D954B55F-BFBD-45DB-89BC-2C6EB5F40B82} = {BA49ADA9-BEE1-4D5F-99D3-7E11A6916244}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9BC5BC54-6712-4B1E-A1B4-170C7A6ADBD2}
