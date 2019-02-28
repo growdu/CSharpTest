@@ -8,6 +8,10 @@ namespace TimeTest
 {
     class Program
     {
+        /// <summary>
+        /// 定时任务，如指定每天某个时间节点执行某个任务
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Console.Title = "定时服务测试";
@@ -21,6 +25,11 @@ namespace TimeTest
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// 当设置的间隔时间达到时，就会执行
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         static void Send(object source, ElapsedEventArgs e)
         {
             try
