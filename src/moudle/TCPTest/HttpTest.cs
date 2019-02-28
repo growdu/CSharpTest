@@ -40,6 +40,10 @@ namespace TCPTest
         /// <returns></returns>
         public static bool Listen(string uri, bool isTest = true)
         {
+            if(uri==null||uri==" " || uri == "")
+            {
+                uri = "http://127.0.0.1:15000/news/";
+            }
             HttpListener listener = new HttpListener();
             while (true)
             {
@@ -131,7 +135,7 @@ namespace TCPTest
         {
             if (url == null || url == "")
             {
-                url = "http://210.13.70.67:15000/news/send";
+                url = "http://127.0.0.1:15000/news/send";
             }
             bool result = false;
             //生成文件流
