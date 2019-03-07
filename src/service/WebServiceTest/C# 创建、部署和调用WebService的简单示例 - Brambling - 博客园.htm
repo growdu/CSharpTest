@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>C# 创建、部署和调用WebService的简单示例 - Brambling - 博客园</title>
+<meta property="og:description" content="webservice 可以用于分布式应用程序之间的交互，和不同程序之间的交互。 概念性的东西就不说太多，下面开始创建一个简单的webservice的例子。这里我用的是Visual Studio 201">
+    <link type="text/css" rel="stylesheet" href="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-LoveGiveHeart.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-LoveGiveHeart-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/Brambling/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/Brambling/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/Brambling/wlwmanifest.xml">
+    <script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/ads"></script><script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_313.js"></script><script async="" src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=310841;var currentBlogApp='Brambling',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style><script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/prompt.js"></script><link rel="preload" href="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_313.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="banner">
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/Brambling/">Brambling</a><br>
+		<div class="headerDis"></div>
+	</div>
+</div>
+</div>
+<div id="main">
+	<!-- right starts -->
+	<div id="right">
+		<div id="right_content">
+			<div id="mylinks">
+				<div id="mystats">
+					
+						<div id="blog_stats">
+<!--done-->
+<div class="blogStats">
+随笔- 59&nbsp;
+文章- 0&nbsp;
+评论- 70&nbsp;
+
+</div></div>
+					
+				</div>
+				<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/Brambling/">首页</a>&nbsp;&nbsp;<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Brambling">联系</a>&nbsp;&nbsp;<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>&nbsp;&nbsp;<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/Brambling/rss">订阅</a>&nbsp;<a id="blog_nav_rss_image" href="https://www.cnblogs.com/Brambling/rss"><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>
+			</div>
+			<div id="topics">
+				
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/Brambling/p/6815565.html">C# 创建、部署和调用WebService的简单示例</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>webservice 可以用于分布式应用程序之间的交互，和不同程序之间的交互。</p>
+<p>概念性的东西就不说太多，下面开始创建一个简单的webservice的例子。这里我用的是Visual Studio 2015开发工具。</p>
+<p>首先创建一个空的Web应用程序。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170505235239867-1013968005.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170505235332648-1633403896.png" alt=""></p>
+<p>然后鼠标右键点击项目，选择 添加&gt;新建项。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170505235641007-1100386882.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506024135273-1823652103.png" alt=""></p>
+<p>选择Web服务，点击添加。一个简单的webservice就创建完成了，接下来编写两个简单的方法。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506000528195-1761642254.png" alt=""></p>
+<p><span style="color: #ff0000">PS：如果方法需要通过webservice的地址进行调用，那就必须在方法上面打上 [WebMethod] 的特性标签，否则是无法通过webservice访问到的。Description 是方法的描述。</span></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506001051757-1182381215.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506001402617-1605061991.png" alt=""></p>
+<p>&nbsp;</p>
+<p>然后运行一下，就可以看到上图的方法了，访问 webservice 就可以根据地址栏里的地址进行调用 webservice 的方法了。</p>
+<p>&nbsp;</p>
+<p>但是这样如何让其他应用程序通过网络进行访问呢？那就需要部署到服务器了。</p>
+<p>下面的演示我是部署在本机的，不过服务器部署也是一样的。网站部署需要用到 IIS，而我这里是已经开启的，如果没有开启的话，可以通过 开始菜单
+ &gt; 控制面板 &gt; 程序 &gt; 启用或关闭 windows 功能 开启。具体的可以网上搜索一下，这里就不做过多的介绍。</p>
+<p>&nbsp;</p>
+<p>开启 IIS 之后，先把刚才的 webservice 发布之后，然后打开 IIS 管理器。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506002404804-421069785.png" alt=""></p>
+<p>选择自定义，然后输入配置文件名称，然后点击下一步。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506002523039-562769390.png" alt=""></p>
+<p>然后选择发布的方式和发布的路径，然后点击下一步。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506003040570-1520990342.png" alt=""></p>
+<p>设置不用改，继续下一步。然后点击发布。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506003208320-144874795.png" alt=""></p>
+<p>这样就发布完成了，现在打开 IIS 管理器，然后选择网站，点击添加网站。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506003407367-1475872326.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506003910289-398357714.png" alt=""></p>
+<p>输入网站的名称、IP地址（本机可以不输入IP地址）和端口，选择文件的路径，然后点击确定，网站就创建完成了。</p>
+<p>&nbsp;</p>
+<p>当然，并不一定就立马可以使用了，这之中会出现很多的错误，下面是我碰到的一些错误和一些解决方法。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506005108257-1359908073.gif" alt=""></p>
+<p>这个错误是因为文件的访问权限不够的问题。解决方法就是点击编辑权限。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506005220461-2146639489.png" alt=""></p>
+<p>然后选择安全栏，点击编辑。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506005409632-1091174741.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506010020773-1696900431.png" alt=""></p>
+<p>然后点击添加一个用户，把权限设置为允许。或者使用下面这种方法：</p>
+<p>选择网站，然后选中身份验证，点击基本设置。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506014333445-234428498.png" alt=""></p>
+<p>选择连接为。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506014409570-2122430164.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506014626398-153467210.png" alt=""></p>
+<p>然后选择特定用户，点击设置，输入本机的用户名和密码，点击确定就可以了。然后可以点击测试设置看看效果。</p>
+<p>&nbsp;</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506010202539-329759139.png" alt=""></p>
+<p>这个错误的原因是在安装Framework v4.0之后，再启用IIS，导致Framework没有完全安装。</p>
+<p>解决方法就是：开始菜单 &gt; 命令提示符（管理员），然后输入并执行 &nbsp; %windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_regiis.exe -i &nbsp; 命令行。</p>
+<p>&nbsp;</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506011141820-388956270.png" alt=""></p>
+<p>这个问题的是因为，应用程序池设置的原因，开始新建网站的时候没有选择应用程序池，默认为v2.0的版本，不支持 Framework 4.5。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506011724836-54846892.png" alt=""></p>
+<p>解决方法就是选择应用程序池，然后改为v4.0的版本，管道模式设置为集成。</p>
+<p>&nbsp;</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506011752742-1647576373.png" alt=""></p>
+<p>这个错误的原因是由于系统目录下的Temp目录无相应的权限所致。</p>
+<p>解决方法就是进入 C盘 windows 目录下的 Temp 目录，右键属性 &gt; &nbsp;安全栏 &gt; 编辑 &gt; IIS_IUSRS 的权限设置为完全控制。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506012623320-2076983355.png" alt=""></p>
+<p>&nbsp;</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506012656804-2088815901.png" alt=""></p>
+<p>这个错误的原因是因为没有配置网站的默认文档。</p>
+<p>解决方法就是选中网站，点击默认文档，然后添加一个默认的页面，即应用程序的起始页面。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506012946757-311371186.png" alt=""></p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506013052289-763122259.png" alt=""></p>
+<p>&nbsp;</p>
+<p>然后，处理了众多问题之后，总算是部署成功了。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506021845382-1311025508.png" alt=""></p>
+<p>&nbsp;</p>
+<p>接下来，就来个简单的 webservice 的调用示例。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506022315179-1436102393.png" alt=""></p>
+<p>先添加一个控制台应用程序，然后右键引用，选择添加服务引用。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506022300820-277749309.png" alt=""></p>
+<p>点击高级，然后在弹出来的页面点击 添加web引用。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506022500992-1497782301.png" alt="">&nbsp;</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506022709679-196558225.png" alt=""></p>
+<p>在URL栏输入部署的网站地址，然后点击转到，就可以看到下面的方法内容了，然后输入web引用名称，点击添加引用。</p>
+<p>引用添加完成，下面就开始调用webservice。</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506023539836-880678427.png" alt=""></p>
+<p>结果如下：</p>
+<p><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1041184-20170506023628195-1028874841.png" alt=""></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/Brambling/category/997019.html" target="_blank">C# WebService</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6815565,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('7f4ff9ad-6490-e611-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Brambling/" target="_blank"><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20161026200506.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Brambling/">Brambling</a><br>
+            <a href="http://home.cnblogs.com/u/Brambling/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/Brambling/followers">粉丝 - 132</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('7f4ff9ad-6490-e611-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6815565,'Digg')">
+        <span class="diggnum" id="digg_count">23</span>
+    </div>
+    <div class="buryit" onclick="votePost(6815565,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/Brambling/p/6779434.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/Brambling/p/6779434.html" title="发布于2017-04-28 02:41">SQL Server 常用函数使用方法(持续更新)</a><br><a href="https://www.cnblogs.com/Brambling/p/6828726.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/Brambling/p/6828726.html" title="发布于2017-05-09 02:29">C# 使用windows服务发送邮件</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-05-06 02:38</span> <a href="https://www.cnblogs.com/Brambling/">Brambling</a> 阅读(<span id="post_view_count">66869</span>) 评论(<span id="post_comment_count">29</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6815565" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6815565);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=310841,cb_entryId=6815565,cb_blogApp=currentBlogApp,cb_blogUserGuid='7f4ff9ad-6490-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2017/5/6 2:38:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="comment">
+<div class="feedback_area_title"><!--共有<span class="cmt_num"></span>评论-->  <!-- <span class="cmt_fct">[<a href="">订阅评论</a>]</span> --></div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3773825" class="layer">#1楼</a><a name="3773825" id="comment_anchor_3773825"></a><span class="feedbackName"><a id="a_comment_author_3773825" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 11:56</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3773825" class="blog_comment_body">你好,请问下部署到服务器怎么做?</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3773825,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3773825,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3773992" class="layer">#2楼</a><a name="3773992" id="comment_anchor_3773992"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3773992" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 18:14</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3773992" class="blog_comment_body"><a href="#3773825" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3773825);">@</a>
+Sunyelw<br>你需要在服务器先配置IIS的，如果已经配置好那就可以跳过这一步。然后把你的网站发布的文件打包到服务器，然后根据上面的添加网站开始，后面都是一样的步骤。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3773992,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3773992,'Bury',this)">反对(0)</a></div><span id="comment_3773992_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3773995" class="layer">#3楼</a><a name="3773995" id="comment_anchor_3773995"></a><span class="feedbackName"><a id="a_comment_author_3773995" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 18:18</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3773995" class="blog_comment_body"><a href="#3773992" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3773992);">@</a>
+Brambling<br>其实我就是想把我的webservice能让局域网内的电脑都能访问,或者可以有更简单的方法? 服务器这方面我不是很懂...</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3773995,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3773995,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774004" class="layer">#4楼</a><a name="3774004" id="comment_anchor_3774004"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774004" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 18:50</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774004" class="blog_comment_body"><a href="#3773995" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3773995);">@</a>
+Sunyelw<br>这应该是属于计算机网络方面的知识了，简单的方法我之前好像看到过。比如，在你本地计算机部署好webservice之后，然后把防火墙的入站连接设置为允许试试，具体的你可以百度一下相关的文章。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774004,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774004,'Bury',this)">反对(0)</a></div><span id="comment_3774004_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774005" class="layer">#5楼</a><a name="3774005" id="comment_anchor_3774005"></a><span class="feedbackName"><a id="a_comment_author_3774005" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 18:53</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774005" class="blog_comment_body"><a href="#3774004" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774004);">@</a>
+Brambling<br>好的 非常感谢您对我的帮助! 谢谢!</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774005,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774005,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774006" class="layer">#6楼</a><a name="3774006" id="comment_anchor_3774006"></a><span class="feedbackName"><a id="a_comment_author_3774006" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 18:55</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774006" class="blog_comment_body">对了 我发现不把webservice配置到IIS上本地也能调用,只要发布了就行,请问下IIS上的配置是起什么作用?</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774006,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774006,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774009" class="layer">#7楼</a><a name="3774009" id="comment_anchor_3774009"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774009" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:02</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774009" class="blog_comment_body"><a href="#3774006" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774006);">@</a>
+Sunyelw<br>发布之后能调用的前提是你的webservice程序在运行状态，简单的说，IIS就是相当于把webservice或网站托管运行吧，然后你就可以通过其地址使用其他程序进行访问了。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774009,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774009,'Bury',this)">反对(0)</a></div><span id="comment_3774009_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774010" class="layer">#8楼</a><a name="3774010" id="comment_anchor_3774010"></a><span class="feedbackName"><a id="a_comment_author_3774010" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:05</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774010" class="blog_comment_body"><a href="#3774009" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774009);">@</a>
+Brambling<br>那部署到IIS后可以把我的webservice关了吗?</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774010,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774010,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774011" class="layer">#9楼</a><a name="3774011" id="comment_anchor_3774011"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774011" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:08</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774011" class="blog_comment_body"><a href="#3774010" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774010);">@</a>
+Sunyelw<br>是的。部署好之后你只需要通过其地址就可以直接访问了，当然在IIS部署好的webservice或网站要启动起来。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774011,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774011,'Bury',this)">反对(0)</a></div><span id="comment_3774011_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774012" class="layer">#10楼</a><a name="3774012" id="comment_anchor_3774012"></a><span class="feedbackName"><a id="a_comment_author_3774012" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:10</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774012" class="blog_comment_body"><a href="#3774011" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774011);">@</a>
+Brambling<br>恩 我IIS部署的一直出不来就是那个默认文档的问题,按你的解决方法也没用,不知道你有没有时间帮我看看...</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774012,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774012,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774014" class="layer">#11楼</a><a name="3774014" id="comment_anchor_3774014"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774014" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:14</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774014" class="blog_comment_body"><a href="#3774012" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774012);">@</a>
+Sunyelw<br>你部署好之后添加默认文档了么？添加之后就没有这个问题了呀。然后你就可以运行一下发布好的webservice。如果能运行就可以了，如果不能就看看具体报什么错误。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774014,'Digg',this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774014,'Bury',this)">反对(0)</a></div><span id="comment_3774014_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774015" class="layer">#12楼</a><a name="3774015" id="comment_anchor_3774015"></a><span class="feedbackName"><a id="a_comment_author_3774015" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:17</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774015" class="blog_comment_body"><a href="#3774014" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774014);">@</a>
+Brambling<br>报的错误还是跟没添加默认文档一样的,所以 很绝望..</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774015,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774015,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774017" class="layer">#13楼</a><a name="3774017" id="comment_anchor_3774017"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774017" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:22</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774017" class="blog_comment_body"><a href="#3774015" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774015);">@</a>
+Sunyelw<br>这个很正常，我有时候也会碰到那种一个问题能搞半天的都找不到原因，实际上是因为我们经验还不够。你可以尝试一下删除部署的网站，然后重新一步一步的开始，然后可以根据错误到网上找找相关的文章。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774017,'Digg',this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774017,'Bury',this)">反对(0)</a></div><span id="comment_3774017_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774018" class="layer">#14楼</a><a name="3774018" id="comment_anchor_3774018"></a><span class="feedbackName"><a id="a_comment_author_3774018" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:24</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774018" class="blog_comment_body"><a href="#3774017" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774017);">@</a>
+Brambling<br>好的 我再看看,感谢你的帮助!</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774018,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774018,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774020" class="layer">#15楼</a><a name="3774020" id="comment_anchor_3774020"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3774020" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:29</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774020" class="blog_comment_body"><a href="#3774018" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774018);">@</a>
+Sunyelw<br>嗯嗯。不客气。回答你的问题时也相当于帮我自己温习了一次相关知识吧，所以也算是互相帮助吧。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774020,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774020,'Bury',this)">反对(0)</a></div><span id="comment_3774020_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3774023" class="layer">#16楼</a><a name="3774023" id="comment_anchor_3774023"></a><span class="feedbackName"><a id="a_comment_author_3774023" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-03 19:32</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3774023" class="blog_comment_body"><a href="#3774020" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3774020);">@</a>
+Brambling<br>就在刚刚,问题成功解决了, 是一些不应该的低级错误,谢谢你给 的建议,再次感谢!</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3774023,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3774023,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3781335" class="layer">#17楼</a><a name="3781335" id="comment_anchor_3781335"></a><span class="feedbackName"><a id="a_comment_author_3781335" href="http://home.cnblogs.com/u/1226859/" target="_blank">Sunyelw</a> <a href="http://msg.cnblogs.com/send/Sunyelw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-11 19:58</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3781335" class="blog_comment_body">再问个问题,在IIS里面添加网站时的IP地址一定要写本机的吗?</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3781335,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3781335,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3781529" class="layer">#18楼</a><a name="3781529" id="comment_anchor_3781529"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_3781529" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-09-11 23:22</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3781529" class="blog_comment_body"><a href="#3781335" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3781335);">@</a>
+Sunyelw<br>可以这么理解。比如你发布在服务器上面，服务器也是有IP地址的，然后他人就可以通过这个IP地址访问你的网站。（没有绑定域名的情况下，绑定了域名之后，既可以通过域名访问，也可以通过IP地址访问）</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3781529,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3781529,'Bury',this)">反对(0)</a></div><span id="comment_3781529_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3815424" class="layer">#19楼</a><a name="3815424" id="comment_anchor_3815424"></a><span class="feedbackName"><a id="a_comment_author_3815424" href="http://home.cnblogs.com/u/1260908/" target="_blank">ascv</a> <a href="http://msg.cnblogs.com/send/ascv" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-10-19 14:50</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3815424" class="blog_comment_body">最后一步，是新建一个控制台运用程序么？？谢谢</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3815424,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3815424,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3853236" class="layer">#20楼</a><a name="3853236" id="comment_anchor_3853236"></a><span class="feedbackName"><a id="a_comment_author_3853236" href="https://www.cnblogs.com/growingzx/" target="_blank">成长中的ZX</a> <a href="http://msg.cnblogs.com/send/%E6%88%90%E9%95%BF%E4%B8%AD%E7%9A%84ZX" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2017-11-29 11:24</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3853236" class="blog_comment_body">刚进来还以为进了某个高中少女的QQ空间</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3853236,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3853236,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3979423" class="layer">#21楼</a><a name="3979423" id="comment_anchor_3979423"></a><span class="feedbackName"><a id="a_comment_author_3979423" href="https://www.cnblogs.com/xyyshishuaige/" target="_blank">是阳仔啊</a> <a href="http://msg.cnblogs.com/send/%E6%98%AF%E9%98%B3%E4%BB%94%E5%95%8A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-05-22 10:32</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3979423" class="blog_comment_body">怎么设置自己的IP，我在开始设置了本机IP，跑起来以后还是local:58590而不是192.168.1.105：8090</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3979423,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3979423,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#3980136" class="layer">#22楼</a><a name="3980136" id="comment_anchor_3980136"></a><span class="feedbackName"><a id="a_comment_author_3980136" href="https://www.cnblogs.com/clj0102/" target="_blank">chenlijun0102</a> <a href="http://msg.cnblogs.com/send/chenlijun0102" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-05-23 10:15</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3980136" class="blog_comment_body">楼主写的很详细，谢谢分享</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3980136,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3980136,'Bury',this)">反对(0)</a></div><span id="comment_3980136_avatar" style="display:none;">http://pic.cnblogs.com/face/1107503/20190220130815.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4017956" class="layer">#23楼</a><a name="4017956" id="comment_anchor_4017956"></a><span class="feedbackName"><a id="a_comment_author_4017956" href="https://www.cnblogs.com/fengyulv/" target="_blank">逢玉绿</a> <a href="http://msg.cnblogs.com/send/%E9%80%A2%E7%8E%89%E7%BB%BF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-07-11 14:37</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4017956" class="blog_comment_body">博主，你好我想问一下这个增加服务引用和增加web引用有什么区别？<br><br><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1351596-20180711143653455-250033369.png" alt="" "="" border="0"><br><img src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1351596-20180711143657883-1909167971.png" alt="" "="" border="0"></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4017956,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4017956,'Bury',this)">反对(0)</a></div><span id="comment_4017956_avatar" style="display:none;">http://pic.cnblogs.com/face/1351596/20180317211443.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4017974" class="layer">#24楼</a><a name="4017974" id="comment_anchor_4017974"></a>[<span class="louzhu">楼主</span>]<span class="feedbackName"><a id="a_comment_author_4017974" href="https://www.cnblogs.com/Brambling/" target="_blank">Brambling</a> <a href="http://msg.cnblogs.com/send/Brambling" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-07-11 14:56</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4017974" class="blog_comment_body"><a href="#4017956" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,4017956);">@</a>
+逢玉绿<br>这个我也不太了解，web 服务引用是指web service服务的引用吧，而服务引用则是指wcf这样的服务的引用吧。下面的链接里应该有你要的答案。<br><a href="http://social.microsoft.com/Forums/zh-CN/xmlwebserviceszhchs/thread/808d870b-49f1-47ac-b105-4beb580bcec6" target="_blank">http://social.microsoft.com/Forums/zh-CN/xmlwebserviceszhchs/thread/808d870b-49f1-47ac-b105-4beb580bcec6</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4017974,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4017974,'Bury',this)">反对(0)</a></div><span id="comment_4017974_avatar" style="display:none;">http://pic.cnblogs.com/face/1041184/20161026200506.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4031306" class="layer">#25楼</a><a name="4031306" id="comment_anchor_4031306"></a><span class="feedbackName"><a id="a_comment_author_4031306" href="https://www.cnblogs.com/skywss27/" target="_blank">skywss27</a> <a href="http://msg.cnblogs.com/send/skywss27" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-07-29 20:36</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4031306" class="blog_comment_body">lz 是个女生吧 这背景风格好少女</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4031306,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4031306,'Bury',this)">反对(0)</a></div><span id="comment_4031306_avatar" style="display:none;">http://pic.cnblogs.com/face/575679/20180822172614.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4088759" class="layer">#26楼</a><a name="4088759" id="comment_anchor_4088759"></a><span class="feedbackName"><a id="a_comment_author_4088759" href="http://home.cnblogs.com/u/1509686/" target="_blank">bfyq</a> <a href="http://msg.cnblogs.com/send/bfyq" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-10-14 08:50</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4088759" class="blog_comment_body">给楼主点赞，前几天看了这篇博客，对我这个啥都不了解的小菜鸟帮助很大。因为刚刚注册账号，当时不能评价。<br>                                                         -----一条迟到的回复</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4088759,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4088759,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4103491" class="layer">#27楼</a><a name="4103491" id="comment_anchor_4103491"></a><span class="feedbackName"><a id="a_comment_author_4103491" href="https://www.cnblogs.com/spttttt/" target="_blank">好奇心害死猫</a> <a href="http://msg.cnblogs.com/send/%E5%A5%BD%E5%A5%87%E5%BF%83%E5%AE%B3%E6%AD%BB%E7%8C%AB" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-11-01 11:24</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4103491" class="blog_comment_body">还是不错的，对于刚接触webservice的我来说有一定的帮助</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4103491,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4103491,'Bury',this)">反对(0)</a></div><span id="comment_4103491_avatar" style="display:none;">http://pic.cnblogs.com/face/1338427/20180227111355.png</span>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4149726" class="layer">#28楼</a><a name="4149726" id="comment_anchor_4149726"></a><span class="feedbackName"><a id="a_comment_author_4149726" href="https://www.cnblogs.com/cnblog-shi/" target="_blank">神奇签名</a> <a href="http://msg.cnblogs.com/send/%E7%A5%9E%E5%A5%87%E7%AD%BE%E5%90%8D" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2018-12-27 11:29</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4149726" class="blog_comment_body">学习！！！！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4149726,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4149726,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<a href="#4159969" class="layer">#29楼</a><a name="4159969" id="comment_anchor_4159969"></a><span id="comment-maxId" style="display:none;">4159969</span><span id="comment-maxDate" style="display:none;">2019/1/10 14:44:57</span><span class="feedbackName"><a id="a_comment_author_4159969" href="http://home.cnblogs.com/u/1038846/" target="_blank">灵感来自小西装</a> <a href="http://msg.cnblogs.com/send/%E7%81%B5%E6%84%9F%E6%9D%A5%E8%87%AA%E5%B0%8F%E8%A5%BF%E8%A3%85" title="发送站内短消息" class="sendMsg2This">&nbsp;</a></span> 在 <span class="comment_date">2019-01-10 14:44</span>说：
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4159969" class="blog_comment_body">看懂了，为了 点赞特意登陆 一下</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4159969,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4159969,'Bury',this)">反对(0)</a></div>
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+			</div>
+		</div>
+	
+</div><div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真HMI组态CAD\GIS图形源码！</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="C%23%20%E5%88%9B%E5%BB%BA%E3%80%81%E9%83%A8%E7%BD%B2%E5%92%8C%E8%B0%83%E7%94%A8WebService%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%20-%20Brambling%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height: 250px; width: 300px;"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; width: 300px; height: 250px;"></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/hyshareex/p/9582956.html" target="_blank" onclick="clickRecomItmem(undefined,'undefined')">C#创建、部署和调用WebService简单示例</a><br>·  <a href="https://www.cnblogs.com/net-sky/p/9265953.html" target="_blank" onclick="clickRecomItmem(undefined,'undefined')">C#创建、部署和调用WebService的简单示例</a><br>·  <a href="https://www.cnblogs.com/zhouyu2017/p/7236017.html" target="_blank" onclick="clickRecomItmem(undefined,'undefined')">C# 创建、部署和调用WebService的简单示例</a><br>·  <a href="https://www.cnblogs.com/denylau/archive/2010/07/23/1783530.html" target="_blank" onclick="clickRecomItmem(undefined,'undefined')">C#调用WebService</a><br>·  <a href="https://www.cnblogs.com/1175429393wljblog/p/9957300.html" target="_blank" onclick="clickRecomItmem(undefined,'undefined')">C#创建、部署和调用WebService的简单示例</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height: 60px; width: 468px;"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/621151/" target="_blank">苹果已经理清了和微信的关系，小程序开发者们也应该这么做</a><br> ·  <a href="https://news.cnblogs.com/n/621150/" target="_blank">用Switch怎么玩VR游戏？任天堂靠这几个纸盒实现了</a><br> ·  <a href="https://news.cnblogs.com/n/621149/" target="_blank">中兴翻盖式折叠屏智能机专利曝光</a><br> ·  <a href="https://news.cnblogs.com/n/621148/" target="_blank">法国新数字税或在全球引发连锁反应 硅谷巨头每年多掏数十亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/621147/" target="_blank">NASA与Google合作制作令人惊叹的宇宙探索视觉史册</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+			</div>
+			<div id="footer">
+				
+<!--done-->
+Copyright ©2019 Brambling
+			</div>
+		</div>
+	</div>
+	<!-- right ends -->
+	<!-- left starts -->
+	<div id="left">
+		<!-- 左侧工具部分 -->
+		<div id="left_content">
+			
+<!--done-->
+<!-- <h1 class="listtitle">公告</h1> -->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/Brambling/">Brambling</a><br>园龄：<a href="https://home.cnblogs.com/u/Brambling/" title="入园时间：2016-10-12">2年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/Brambling/followers/">132</a><br>关注：<a href="https://home.cnblogs.com/u/Brambling/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('7f4ff9ad-6490-e611-845c-ac853d9f53ac')">+加关注</a></div><script>getFollowStatus('7f4ff9ad-6490-e611-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/02/01');return false;">&lt;</a></td><td align="center">2019年3月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/04/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">24</td><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+				<div id="leftcontentcontainer">
+					<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/Brambling/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/Brambling/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/Brambling/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/Brambling/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/Brambling/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_recentposts" class="sidebar-block">
+<h3 class="catListTitle">最新随笔</h3>
+<div class="RecentComment" id="RecentPosts">
+<ul style="word-break:break-all">
+<li><a href="https://www.cnblogs.com/Brambling/p/9429662.html">1. MySQL实现SQL Server排名函数</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9296338.html">2. MySQL日志</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9293709.html">3. MySQL备份与恢复</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9263377.html">4. MySQL创建数据表并建立主外键关系</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9259631.html">5. MySQL函数的使用</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9259543.html">6. MySQL存储过程</a></li><li><a href="https://www.cnblogs.com/Brambling/p/9259375.html">7. MySQL变量的使用</a></li><li><a href="https://www.cnblogs.com/Brambling/p/8427810.html">8. MySQL个人学习笔记</a></li><li><a href="https://www.cnblogs.com/Brambling/p/8016060.html">9. SQL Server CLR 使用 C# 自定义存储过程和触发器</a></li><li><a href="https://www.cnblogs.com/Brambling/p/8000911.html">10. SQL Server CLR 使用 C# 自定义函数</a></li>
+</ul>
+</div>
+</div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="https://www.cnblogs.com/Brambling/category/997019.html">C# WebService(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="https://www.cnblogs.com/Brambling/category/999246.html">C# Windows 服务(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="https://www.cnblogs.com/Brambling/category/1028512.html">C# Winform(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="https://www.cnblogs.com/Brambling/category/900518.html">C# 基础(11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="https://www.cnblogs.com/Brambling/category/1055942.html">Git(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="https://www.cnblogs.com/Brambling/category/1161205.html">My SQL(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="https://www.cnblogs.com/Brambling/category/1076276.html">Other(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="https://www.cnblogs.com/Brambling/category/1029955.html">Python(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="https://www.cnblogs.com/Brambling/category/904864.html">SQL Server(33)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2018/08.html">2018年8月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2018/07.html">2018年7月 (6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2018/02.html">2018年2月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/12.html">2017年12月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/09.html">2017年9月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_5" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/08.html">2017年8月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_6" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/07.html">2017年7月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_7" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/06.html">2017年6月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_8" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/05.html">2017年5月 (6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_9" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/04.html">2017年4月 (27)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_10" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2017/03.html">2017年3月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_11" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2016/11.html">2016年11月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_12" class="listitem" href="https://www.cnblogs.com/Brambling/archive/2016/10.html">2016年10月 (3)</a></li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<h3>积分与排名</h3>
+<ul>
+	<li>
+		积分 -
+		110683
+	</li><li>
+		排名 -
+		3857
+	</li>
+</ul>
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Brambling/p/6815565.html#4159969">1. Re:C# 创建、部署和调用WebService的简单示例</a></li>
+        <li class="recent_comment_body">看懂了，为了 点赞特意登陆 一下</li>
+        <li class="recent_comment_author">--灵感来自小西装</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Brambling/p/6815565.html#4149726">2. Re:C# 创建、部署和调用WebService的简单示例</a></li>
+        <li class="recent_comment_body">学习！！！！！</li>
+        <li class="recent_comment_author">--神奇签名</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Brambling/p/7994095.html#4140367">3. Re:C# 使用 wkhtmltopdf 把HTML文本或文件转换为PDF</a></li>
+        <li class="recent_comment_body">mark~</li>
+        <li class="recent_comment_author">--灵雨飘零</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Brambling/p/7144015.html#4137701">4. Re:C# 多线程编程第一步——理解多线程</a></li>
+        <li class="recent_comment_body">写得真好~感谢~</li>
+        <li class="recent_comment_author">--HolmesZhou</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Brambling/p/6711937.html#4104893">5. Re:SQL Server聚合函数与聚合开窗函数</a></li>
+        <li class="recent_comment_body">开窗函数=聚合开窗函数=聚合函数+over，是这样理解吗？</li>
+        <li class="recent_comment_author">--雪飞鸿</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/Brambling/p/6815565.html">1. C# 创建、部署和调用WebService的简单示例(66854)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6731386.html">2. SQL Server创建视图——视图的作用(53945)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6676087.html">3. SQL Server插入数据和删除数据(48999)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6754993.html">4. SQL Server 创建索引（index）(42158)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6725859.html">5. SQL Server创建存储过程——动态SQL(35530)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/Brambling/p/6815565.html">1. C# 创建、部署和调用WebService的简单示例(29)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6828726.html">2. C# 使用windows服务发送邮件(9)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6854731.html">3. C# 导出 Excel 的各种方法总结(7)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6916115.html">4. C# 使用 Windows API 发送文件到打印机(6)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/7046148.html">5. SQL Server 排序的时候使 null 值排在最后(2)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/Brambling/p/6815565.html">1. C# 创建、部署和调用WebService的简单示例(23)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6854731.html">2. C# 导出 Excel 的各种方法总结(13)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6754993.html">3. SQL Server 创建索引（index）(7)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/6779434.html">4. SQL Server 常用函数使用方法(持续更新)(5)</a></li><li><a href="https://www.cnblogs.com/Brambling/p/7144015.html">5. C# 多线程编程第一步——理解多线程(5)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+				</div>
+			
+		</div>
+		<!-- //右侧工具部分 -->
+	</div>
+	<!-- left ends -->	
+	<div class="clear"></div>
+</div>
+
+
+
+
+</body></html>
