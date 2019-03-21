@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FileTest.JsonFile</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-logging">
       <HintPath>..\..\..\dll\commons-logging.dll</HintPath>
@@ -50,6 +53,10 @@
     <Reference Include="IKVM.Runtime">
       <HintPath>..\..\..\dll\IKVM.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="pdfbox-1.8.9">
       <HintPath>..\..\..\dll\pdfbox-1.8.9.dll</HintPath>
     </Reference>
@@ -66,9 +73,11 @@
     <Compile Include="DirTest.cs" />
     <Compile Include="ExtractText.cs" />
     <Compile Include="FormatFactory.cs" />
+    <Compile Include="JsonFile.cs" />
     <Compile Include="PdfParse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedFile.cs" />
     <Compile Include="XmlTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
