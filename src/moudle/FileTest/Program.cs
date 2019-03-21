@@ -9,7 +9,7 @@ namespace FileTest
     class Program
     {
         static void Main(string[] args)
-        { 
+        {
             string file = Directory.GetParent("..").FullName;
             file += @"\examples\1.pdf";
             PdfParse pdf = new PdfParse(file);

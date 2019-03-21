@@ -38,5 +38,29 @@ namespace FileTest
                 }
             }
         }
+
+        /// <summary>
+        /// 在path目录下按时间创建目录
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string CreateDir(string path)
+        {
+            string[] date = new string[] {
+                 DateTime.Now.Year.ToString(),
+                  DateTime.Now.Month.ToString(),
+                   DateTime.Now.Day.ToString()
+            };
+            foreach(string d in date)
+            {
+                path = Path.Combine(path,d);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+            }
+            return path;
+        }
+
     }
 }

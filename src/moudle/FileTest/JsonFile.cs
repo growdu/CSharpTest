@@ -14,6 +14,9 @@ namespace FileTest
 
         static void Main(string[] args)
         {
+            string path = @"D:\舆情数据";
+            path = DirTest.CreateDir(path);
+
             string filaName = @"D:\downloads\2019-03-187bca3f2b-cbbe-47b1-be18-0a8d4a7c032f-yhtx.T_INDEX_WEIGHT_TX.json";
             //string json = File.ReadAllText(filaName);
             JObject root = null;
