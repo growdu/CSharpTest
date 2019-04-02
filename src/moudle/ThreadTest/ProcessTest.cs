@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ThreadTest
 {
@@ -11,6 +13,7 @@ namespace ThreadTest
     {
         static void Main(string []args)
         {
+            ConcurrentDictionaryTest();
             foreach (Process p in Process.GetProcesses())
             {
                 Console.Write(p.ProcessName);
@@ -19,8 +22,8 @@ namespace ThreadTest
                 
             }
             Console.ReadKey();
-            Process[] pp = Process.GetProcessesByName("acrobat");
-            pp[0].Kill();
+            //Process[] pp = Process.GetProcessesByName("acrobat");
+            //pp[0].Kill();
         }
 
         private static string GetProcessUserName(int pID)
@@ -51,6 +54,29 @@ namespace ThreadTest
             }
 
             return text1;
+        }
+
+        static void ConcurrentDictionaryTest()
+        {
+            ConcurrentDictionary<string, string> task = new ConcurrentDictionary<string, string>();
+            task.TryAdd("0","nice");
+            task.TryAdd("1","good");
+            task.TryAdd("2", "beautiful");
+            task.TryAdd("3", "wonderful");
+            task.TryAdd("4", "excelent");
+            task.TryAdd("5", "great");
+            Task.Factory.StartNew(() =>
+            {
+                task.TryAdd("6", "bad");
+                task.TryAdd("7", "terrible");
+            });
+            foreach (var key in task.Keys)
+            {
+                Console.WriteLine(key+"--------"+task[key]);
+                string val = task[key];
+                task.TryRemove(key,out val);
+                Console.WriteLine(task.Keys.Count);
+            }
         }
 
     }
