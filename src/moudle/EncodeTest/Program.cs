@@ -12,6 +12,14 @@ namespace EncodeTest
         {
             Code code = new Code();
             code.ToUTF8("将字符编码转换为UTF-8。");
+            string src = @"¹É¶«´ó»á³öÏ¯";
+            var bytes = Encoding.Unicode.GetBytes(src);
+            foreach (var b in bytes)
+            {
+                Console.WriteLine(String.Format("\\u{0:X2}", b));
+            }
+            string test = Encoding.Unicode.GetString(bytes);
+            Console.WriteLine(test);
             Console.ReadKey();
         }
     }
@@ -25,6 +33,22 @@ namespace EncodeTest
             text = TransferStr(text, strGb2312, utf8);
             Console.WriteLine(text);
             return text;
+        }
+
+        /// <summary>
+        /// 将字符串转换为Unicode字节
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string String2Unicode(string source)
+        {
+            var bytes = Encoding.Unicode.GetBytes(source);
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < bytes.Length; i += 2)
+            {
+                stringBuilder.AppendFormat("\\u{0:x2}{1:x2}", bytes[i + 1], bytes[i]);
+            }
+            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -65,6 +89,7 @@ namespace EncodeTest
                 return Convert.ToBase64String(hashmessage);
             }
         }
+
 
     }
 }
