@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -8,10 +11,18 @@ using System.Threading;
 
 namespace TCPTest
 {
+    
     class Program
     {
+        static string dataDir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName;
         static void Main(string[] args)
         {
+            string cookie = GetCookie();
+            var ids=GetSocket(cookie);
+            foreach(var id in ids)
+            {
+                Console.WriteLine(GetData(cookie,id));
+            }
             ThreadPool.SetMaxThreads(1000, 1000);
             IPAddress address = IPAddress.Parse("127.0.0.1");
             TcpListener listener = new TcpListener(address,50000);
@@ -21,6 +32,109 @@ namespace TCPTest
                 ChatClient chatClient =new ChatClient( listener.AcceptTcpClient());
             }
         }
+
+
+        static string GetCookie()
+        {
+            string cookie = "";
+            string user = "";
+            string password = "";
+            string url = "https://127.0.0.1";
+            JObject json = new JObject();
+            JProperty jp = new JProperty("username",user);
+            json.Add(jp);
+            jp = new JProperty("password", password);
+            json.Add(jp);
+            //HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            //生成文件流
+            byte[] buffer = Encoding.UTF8.GetBytes(json.ToString());
+            //向流中写字符串
+            StreamWriter writer = null;
+            //根据url创建请求对象
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            try
+            {
+                writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(json);
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                writer.Close();
+            }
+            HttpWebResponse objresponse = (HttpWebResponse)request.GetResponse();
+            using (StreamReader sr = new StreamReader(objresponse.GetResponseStream()))
+            {
+                cookie= sr.ReadToEnd();
+                sr.Close();
+            }
+            JObject js = (JObject)JsonConvert.DeserializeObject(cookie);
+            cookie = "user-" + js["data"]["id"] + "-" + js["data"]["token"];
+            using(FileStream fs=new FileStream("data.txt",FileMode.OpenOrCreate))
+            {
+                StreamWriter wr = new StreamWriter(fs);
+                wr.Write(cookie);
+                wr.Flush();
+                wr.Close();
+            }
+            return cookie;
+        }
+
+        static List<string> GetSocket(string cookie)
+        {
+            string url = "https://127.0.0.1";
+            string result = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Headers.Add("Authorization", cookie);
+            HttpWebResponse objresponse = (HttpWebResponse)request.GetResponse();
+            using (StreamReader sr = new StreamReader(objresponse.GetResponseStream()))
+            {
+                result = sr.ReadToEnd();
+                sr.Close();
+            }
+            JObject json= (JObject)JsonConvert.DeserializeObject(result);
+            JToken data = json["data"];
+            List<string> ids = new List<string>();
+            for(int i = 0; i < data.Count(); i++)
+            {
+                ids.Add(data[i]["id"].ToString());
+            }
+            return ids;
+        }
+
+        static string GetData(string cookie,string id)
+        {
+            string url = "https://127.0.0.1";
+            string result = "";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Headers.Add("Authorization", cookie);
+            request.ContentType = "application/json";
+            JObject json = new JObject(new JProperty("id",id),new JProperty("startDate","2019-04-01"), new JProperty("endDate", "2019-04-02"));
+            var writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(json);
+            writer.Close();
+            HttpWebResponse objresponse = (HttpWebResponse)request.GetResponse();
+            using (StreamReader sr = new StreamReader(objresponse.GetResponseStream()))
+            {
+                result = sr.ReadToEnd();
+                sr.Close();
+            }
+            return result;
+        }
+
+        static string VisitWeb(string url,string method,string body)
+        {
+            string result= "";
+            return result;
+        }
+
 
         public class ChatClient
         {
