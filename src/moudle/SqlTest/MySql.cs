@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace SqlTest
     class MySql
     {
         static string _conString = "server=127.0.0.1;user id=root;password=123;database=test";
-        public static MySqlDataReader GetDataReader()
+        public static void  GetDataReader()
         {
             using (MySqlConnection myCon = new MySqlConnection(_conString))
             {
@@ -29,7 +30,10 @@ namespace SqlTest
                     using (MySqlCommand myCmd = new MySqlCommand(cmd, myCon))
                     {
                         MySqlDataReader reader = myCmd.ExecuteReader();
-                        return reader;
+                        while (reader.Read())
+                        {
+
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -37,16 +41,34 @@ namespace SqlTest
                     Console.WriteLine(ex.ToString());
                 }
             }
-            return null;
+        }
+
+        public static DataTable GetDataTable()
+        {
+            using (MySqlConnection myCon = new MySqlConnection(_conString))
+            {
+                try
+                {
+                    myCon.Open();
+                    string cmd = "SELECT * FROM web";
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd, myCon))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                return null;
+            }
         }
 
         public void GetData()
         {
-            MySqlDataReader reader = GetDataReader();
-            while (reader.Read())
-            {
-
-            }
+            
         }
     }
 }

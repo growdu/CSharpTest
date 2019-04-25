@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,7 @@ namespace SqlTest
                         cmdd.CommandText = "select * from scott.Test";
                         using (OleDbDataReader oleRead = cmdd.ExecuteReader())
                         {
+                            OleDbDataAdapter adapter = new OleDbDataAdapter("select * from scott.Test",conn);
                             if (oleRead == null)
                             {
  
@@ -45,8 +47,31 @@ namespace SqlTest
             }
             catch (Exception ex)
             {
-                return "";
+
             }
         }
+
+        public DataTable GetDataTable()
+        {
+            try
+            {
+                using (OleDbConnection conn = new OleDbConnection(_conString))
+                {
+                    conn.Open();//打开连接
+                    using (OleDbDataAdapter adapter = new OleDbDataAdapter("select * from scott.Test", conn))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return null;
+        }
+
     }
 }
