@@ -39,15 +39,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="asprise-ocr-api, Version=15.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\asprise-ocr-api.15.3.1.0\lib\net40\asprise-ocr-api.dll</HintPath>
-    </Reference>
-    <Reference Include="asprise-ocr-dll-bundle-32, Version=15.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\asprise-ocr-dll-bundle-32.15.3.1.0\lib\net40\asprise-ocr-dll-bundle-32.dll</HintPath>
-    </Reference>
-    <Reference Include="asprise-ocr-dll-bundle-64, Version=15.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\asprise-ocr-dll-bundle-64.15.3.1.0\lib\net40\asprise-ocr-dll-bundle-64.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

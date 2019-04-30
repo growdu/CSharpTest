@@ -14,6 +14,7 @@ namespace ObjectTest
     {
         static void Main(string[] args)
         {
+            int? a = null;
             Test model = new Test();
             Console.WriteLine(model.ToString());
             ForeachClassProperties<Test>(model);

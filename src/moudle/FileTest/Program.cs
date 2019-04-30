@@ -10,6 +10,21 @@ namespace FileTest
     {
         static void Main(string[] args)
         {
+            ReadFile.CopyFile(@"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\e-commerce_data_daily.csv", @"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\test.txt");
+            string begin = "";
+            string end = "";
+            if (args.Length != 2)
+            {
+                Console.WriteLine("param error");
+                return;
+            }
+            else
+            {
+                begin = args[0];
+                end = args[1];
+                Console.WriteLine("Extract data from" + begin + " to " + end);
+                Console.ReadKey();
+            }
             string file = Directory.GetParent("..").FullName;
             file += @"\examples\1.pdf";
             PdfParse pdf = new PdfParse(file);

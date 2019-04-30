@@ -36,5 +36,24 @@ namespace FileTest
                 return null;
             }
         }
+
+        public static void CopyFile(string sourceName,string targetName)
+        {
+            int bufferSize = 10240;
+            using (Stream source = new FileStream(sourceName, FileMode.Open, FileAccess.Read))
+            {
+                using (Stream target = new FileStream(targetName, FileMode.Create, FileAccess.Write))
+                {
+                    byte[] buffer = new byte[bufferSize];
+                    int byteRead;
+                    do
+                    {
+                        byteRead = source.Read(buffer, 0, bufferSize);
+                        target.Write(buffer, 0, byteRead);
+                    } while (byteRead > 0);
+                }
+            }
+        }
+
     }
 }

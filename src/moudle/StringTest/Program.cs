@@ -9,6 +9,7 @@ namespace StringTest
     {
         static void Main(string[] args)
         {
+            EnctryptTest.Encrypt();
             {//字符串取值测试
                 StringAndChar.ToUp();
             }
