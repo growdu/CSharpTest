@@ -1,0 +1,59 @@
+<configuration>
+ 
+    <configSections>
+		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+    </configSections>
+	
+	<log4net>
+		<!--FileAppender：将日志写到文件中-->
+		<appender name="ErrorAppender" type="log4net.Appender.RollingFileAppender,log4net">
+		
+			<!--文件路径，如果RollingStyle为Composite或Date，则这里设置为目录，文件名在DatePattern里设置，其他则这里要有文件名。已经扩展支持虚拟目录-->  
+			<param name="File" value=".\xLog\" /><!--   <param name="File" value="d:\Log\\" />-->
+			
+			<!--True/false，默认为true。当文件存在时，是否在原文件上追加内容。通常无需设置-->  
+			<param name="AppendToFile" value="true" />
+			
+			<!--每天记录的日志文件个数，默认为0，与MaxFileSize配合使用 在CountDirection为负数时有效。-->  
+			<param name="MaxSizeRollBackups" value="100" />
+			
+			<!--每个日志文件的最大大小，可用的单位:KB|MB|GB （好像只有在RollingStyle的值为Size时有效）-->  
+			<param name="MaxFileSize" value="10240" />
+			
+			<!--True/false，默认为true。为true时，RollingStyler的date值将无效。且为true时需要在file里指定文件名，所有日志都会记录在这个文件里。-->
+			<param name="StaticLogFileName" value="false" />
+			
+			<!--当RollingStyle为Composite或Date，这里设置文件名格式-->
+			<param name="DatePattern" value="yyyyMMdd" /><!--  <param name="DatePattern" value="yyyy-MM-dd.TXT" />-->
+			
+			<!---创建新文件的方式，可选为Size（按文件大小），Date（按日期），Once（每启动一次创建一个文件），Composite（按日期及文件大小），默认为Composite-->
+			<param name="RollingStyle" value="Date" />
+			
+			<!--默认值为-1。当文件超过MaximumFileSize的大小时，如果要创建新的文件来存储日志，会根据CountDirection的值来重命名文件。大于-1的值时，file里指定的文件名会依次加上.0,.1,.2递增。当等于或小于-1时，创建依赖于MaxSizeRollBackups参数值，创建备份日志数。-->
+			<param name="CountDirection" value="-1" />
+			
+			
+			
+			<!---------------log4net记录错误的格式(即：用什么样的格式（布局）来记录错误)---------------->
+			
+			<layout type="log4net.Layout.PatternLayout">
+				<param name="conversionPattern" value="%date [%thread] %-5level %logger [%ndc] - %message%newline" />
+				<!--<param name="ConversionPattern" value="时间:%d %n级别:%level %n类名:%c%n文件:%F 第%L行%n日志内容:%m%n-----------------%n%n" />-->
+			</layout>
+		
+		</appender>
+		
+		<!---------------log4net记录错误的级别(即：在出现什么级别的错误才记录错误)---------------->
+		
+		<root>
+			<level value="ALL" />
+			<appender-ref ref="ErrorAppender" />
+		</root>
+		
+		<!--<logger name="WebLogger">       
+			<level value="ERROR" /> 
+			<appender-ref ref="ErrorAppender"/>		
+		</logger>-->
+	</log4net>
+ 
+</configuration>
