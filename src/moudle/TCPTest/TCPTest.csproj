@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TCPTest.RabbitMq.ProducerTest</StartupObject>
+    <StartupObject>TCPTest.tcp.Client</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -69,6 +69,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyZhiMaTest.cs" />
     <Compile Include="RabbitMq\ProducerTest.cs" />
+    <Compile Include="tcp\Client.cs" />
+    <Compile Include="tcp\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
