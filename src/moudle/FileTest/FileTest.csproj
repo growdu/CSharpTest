@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>FileTest.LogTest</StartupObject>
+    <StartupObject>FileTest.ftp.FtpDownload</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-logging">
@@ -64,6 +64,7 @@
       <HintPath>..\..\..\dll\pdfbox-1.8.9.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -76,6 +77,7 @@
     <Compile Include="DirTest.cs" />
     <Compile Include="ExtractText.cs" />
     <Compile Include="FormatFactory.cs" />
+    <Compile Include="ftp\FtpHelper.cs" />
     <Compile Include="JsonFile.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogTest.cs" />
@@ -96,6 +98,10 @@
     <ProjectReference Include="..\..\adapter\log4net\log4net.vs2012.csproj">
       <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
       <Name>log4net.vs2012</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StringTest\StringTest.csproj">
+      <Project>{378128c8-dd36-4a0c-adde-bdfebdc71848}</Project>
+      <Name>StringTest</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

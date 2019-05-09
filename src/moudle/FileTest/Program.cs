@@ -10,6 +10,7 @@ namespace FileTest
     {
         static void Main(string[] args)
         {
+            var t = ftp.FtpHelper.GetFileList("/");
             ReadFile.CopyFile(@"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\e-commerce_data_daily.csv", @"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\test.txt");
             string begin = "";
             string end = "";
