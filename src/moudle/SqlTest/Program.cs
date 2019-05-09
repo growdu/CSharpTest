@@ -9,7 +9,8 @@ namespace SqlTest
     {
         static void Main(string[] args)
         {
-            DapperTest.Connect.Select();
+            string s = "";
+            DapperTest.Connect.Select(s);
         }
     }
 }
