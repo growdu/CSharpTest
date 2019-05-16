@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>FileTest.ftp.FtpDownload</StartupObject>
+    <StartupObject>FileTest.Log.LogTest</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-logging">
@@ -89,7 +89,6 @@
     <Compile Include="XmlTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Log\App.config">
       <SubType>Designer</SubType>
     </None>

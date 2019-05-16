@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace FileTest
+namespace FileTest.Log
 {
     public class LogTest
     {
         static void Main(string[] args)
         {
-            //Log.Info(" login success");
+            Log.Info(" login success");
             Log.Error("This is an error");
             //Log.Warn("This is a warning");
             Log.Fatal("This is a fatal");

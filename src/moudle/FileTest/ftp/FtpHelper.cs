@@ -72,7 +72,7 @@ namespace FileTest.ftp
             }
             catch (Exception ex)
             {
-               Log.Error("获取ftp上面的文件和文件夹：" + ex.Message);
+                Log.Log.Error("获取ftp上面的文件和文件夹：" + ex.Message);
                return null;
             }
         }
@@ -91,7 +91,7 @@ namespace FileTest.ftp
             }
             catch (Exception ex)
             {
-                Log.Error("获取文件大小出错：" + ex.Message);
+                Log.Log.Error("获取文件大小出错：" + ex.Message);
                 return -1;
             }
         }
@@ -123,7 +123,7 @@ namespace FileTest.ftp
                     {
                         stream.Write(b, 0, i);
                     }
-                    Log.Info("上传文件成功");
+                    Log.Log.Info("上传文件成功");
                 }
             }
         }
@@ -158,7 +158,7 @@ namespace FileTest.ftp
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Log.Log.Error(ex.ToString());
             }
         }
 

@@ -6,84 +6,86 @@ using log4net.Config;
 using System.IO;
 
 
-namespace FileTest
+namespace FileTest.Log
 {
     /// <summary>
     /// 使用Log4net插件的log日志对象
     /// </summary>
     public static class Log
     {
-        private static ILog log;
+        private static ILog error;
+        private static ILog info;
 
         static Log()
         {
             XmlConfigurator.Configure();
-            log = LogManager.GetLogger("testApp.Logging");
+            error = LogManager.GetLogger("logerror");
+            info = LogManager.GetLogger("loginfo");
         }
 
         public static void Debug(object message)
         {
-            log.Debug(message);
+            info.Debug(message);
         }
 
         public static void DebugFormatted(string format, params object[] args)
         {
-            log.DebugFormat(format, args);
+            info.DebugFormat(format, args);
         }
 
         public static void Info(object message)
         {
-            log.Info(message);
+            info.Info(message);
         }
 
         public static void InfoFormatted(string format, params object[] args)
         {
-            log.InfoFormat(format, args);
+            info.InfoFormat(format, args);
         }
 
         public static void Warn(object message)
         {
-            log.Warn(message);
+            info.Warn(message);
         }
 
         public static void Warn(object message, Exception exception)
         {
-            log.Warn(message, exception);
+            info.Warn(message, exception);
         }
 
         public static void WarnFormatted(string format, params object[] args)
         {
-            log.WarnFormat(format, args);
+            info.WarnFormat(format, args);
         }
 
         public static void Error(object message)
         {
-            log.Error(message);
+            error.Error(message);
         }
 
         public static void Error(object message, Exception exception)
         {
-            log.Error(message, exception);
+            error.Error(message, exception);
         }
 
         public static void ErrorFormatted(string format, params object[] args)
         {
-            log.ErrorFormat(format, args);
+            error.ErrorFormat(format, args);
         }
 
         public static void Fatal(object message)
         {
-            log.Fatal(message);
+            error.Fatal(message);
         }
 
         public static void Fatal(object message, Exception exception)
         {
-            log.Fatal(message, exception);
+            error.Fatal(message, exception);
         }
 
         public static void FatalFormatted(string format, params object[] args)
         {
-            log.FatalFormat(format, args);
+            error.FatalFormat(format, args);
         }
     }
 }

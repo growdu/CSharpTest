@@ -19,8 +19,8 @@ namespace ThreadTest.process
 
         static void Main(string[] args)
         {
-            string name = "Acrobat";
-            if (CheckAdobe(name))
+            string name = "Chrome";
+            if (Check(name))
             {
                 Console.WriteLine(name+" has installed.");
             }
