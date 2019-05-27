@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>FileTest.Log.LogTest</StartupObject>
+    <StartupObject>FileTest.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-logging">
@@ -43,6 +43,9 @@
     </Reference>
     <Reference Include="fontbox-1.8.9">
       <HintPath>..\..\..\dll\fontbox-1.8.9.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\..\..\dll\IKVM.OpenJDK.Core.dll</HintPath>
@@ -63,6 +66,9 @@
     <Reference Include="pdfbox-1.8.9">
       <HintPath>..\..\..\dll\pdfbox-1.8.9.dll</HintPath>
     </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\..\..\dll\sshnet\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -78,6 +84,7 @@
     <Compile Include="ExtractText.cs" />
     <Compile Include="FormatFactory.cs" />
     <Compile Include="ftp\FtpHelper.cs" />
+    <Compile Include="ftp\SftpHelper.cs" />
     <Compile Include="JsonFile.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogTest.cs" />
@@ -86,12 +93,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadFile.cs" />
     <Compile Include="SharedFile.cs" />
+    <Compile Include="Uncompress.cs" />
     <Compile Include="XmlTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Log\App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\adapter\log4net\log4net.vs2012.csproj">

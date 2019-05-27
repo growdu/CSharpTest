@@ -36,10 +36,13 @@ namespace DelegateTest
             private int temperature;
             public string type = "RealFire 001";             
             public string area = "China Xian";
-
+            //事件封装在类里，相当于属性，委托定义相当于私有属性，在类内部访问；事件定义提供对外访问
             public delegate void BoiledEventHandler(object sender, BoliedEventArgs e);
             public event BoiledEventHandler Boiled;
 
+            /// <summary>
+            /// 事件数据
+            /// </summary>
             public class BoliedEventArgs : EventArgs
             {
                 public readonly int temperature;

@@ -10,6 +10,8 @@ namespace FileTest
     {
         static void Main(string[] args)
         {
+            string ss = @"ACTION,SEQUENCE_CODE,TIMEPOINT,VALUE";
+            string st = ConstructByCsv(ss, ',');
             var t = ftp.FtpHelper.GetFileList("/");
             ReadFile.CopyFile(@"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\e-commerce_data_daily.csv", @"C:\Users\duanys\Desktop\officework\数据对接\超对称数据\test.txt");
             string begin = "";
@@ -36,5 +38,19 @@ namespace FileTest
             //测试访问目录
             DirTest.TravelDir();
         }
+
+        public static string ConstructByCsv(string input, char separator)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("using System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Text;\nnamespace Data{\n\n");
+            var ss = input.Split(separator);
+            foreach (var s in ss)
+            {
+                sb.Append("public string " + s + "{get;set;}\n");
+            }
+            sb.Append("}");
+            return sb.ToString();
+        }
+
     }
 }

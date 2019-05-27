@@ -63,6 +63,7 @@
     <Compile Include="Controller\_Base\BaseResult.cs" />
     <Compile Include="Controller\Auth\AuthenticationApiController.cs" />
     <Compile Include="Controller\Login\LoginController.cs" />
+    <Compile Include="news\NewsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

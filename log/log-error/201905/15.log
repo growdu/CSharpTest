@@ -1,0 +1,35 @@
+时间:2019-05-15 19:03:11,263 
+级别:ERROR 
+文件:E:\cSharpWork\repos\CSharpTest\src\moudle\FileTest\Log\Log.cs
+类名:FileTest.Log.Log
+行数:63
+日志内容:This is an error
+-----------------
+时间:2019-05-15 19:04:42,589 
+级别:ERROR 
+文件:E:\cSharpWork\repos\CSharpTest\src\moudle\FileTest\Log\Log.cs
+类名:FileTest.Log.Log
+行数:63
+日志内容:This is an error
+-----------------
+时间:2019-05-15 19:04:43,282 
+级别:FATAL 
+文件:E:\cSharpWork\repos\CSharpTest\src\moudle\FileTest\Log\Log.cs
+类名:FileTest.Log.Log
+行数:78
+日志内容:This is a fatal
+-----------------
+时间:2019-05-15 19:07:29,068 
+级别:ERROR 
+文件:E:\cSharpWork\repos\CSharpTest\src\moudle\FileTest\Log\Log.cs
+类名:FileTest.Log.Log
+行数:63
+日志内容:This is an error
+-----------------
+时间:2019-05-15 19:07:29,651 
+级别:FATAL 
+文件:E:\cSharpWork\repos\CSharpTest\src\moudle\FileTest\Log\Log.cs
+类名:FileTest.Log.Log
+行数:78
+日志内容:This is a fatal
+-----------------
