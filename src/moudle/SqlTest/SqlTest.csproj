@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SqlTest.Redis</StartupObject>
+    <StartupObject>SqlTest.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

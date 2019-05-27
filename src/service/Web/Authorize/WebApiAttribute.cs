@@ -18,7 +18,8 @@ namespace Web
     public class WebApiAttribute : ActionFilterAttribute
     { 
         public override void OnActionExecuting(HttpActionContext actionContext)
-        { 
+        {
+            var uri = actionContext.Request.RequestUri;
             //API执行前触发
             if (true)//当前设置，所有API都可以被调用
             {

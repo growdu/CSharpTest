@@ -18,7 +18,7 @@ namespace SqlTest
 ***********************************************************************/
     class MySql
     {
-        static string _conString = "server=127.0.0.1;user id=root;password=123;database=test";
+        static string _conString = "server=127.0.0.1;user id=python;password=python;database=web";
         public static void  GetDataReader()
         {
             using (MySqlConnection myCon = new MySqlConnection(_conString))
@@ -50,7 +50,7 @@ namespace SqlTest
                 try
                 {
                     myCon.Open();
-                    string cmd = "SELECT * FROM web";
+                    string cmd = "SELECT * FROM user";
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd, myCon))
                     {
                         DataTable dt = new DataTable();
