@@ -57,13 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Login\HomeController.cs" />
     <Compile Include="Controller\_Base\BaseApiController.cs" />
     <Compile Include="Controller\_Base\Json6Helper.cs" />
     <Compile Include="Controller\_Base\BaseResult.cs" />
-    <Compile Include="Controller\Auth\AuthenticationApiController.cs" />
-    <Compile Include="Controller\Login\LoginController.cs" />
-    <Compile Include="news\NewsController.cs" />
+    <Compile Include="Controller\news\NewsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

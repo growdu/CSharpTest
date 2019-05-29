@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
-namespace WebApi
+namespace WebApi.news
 {
-    public class HomeController: BaseApiController
+    public class NewsController: ApiController
     {
+        [HttpGet]
         public BaseResult Get()
         {
             try
