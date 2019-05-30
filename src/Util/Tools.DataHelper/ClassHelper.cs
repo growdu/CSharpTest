@@ -7,8 +7,13 @@ namespace Tools.DataHelper
 {
     public class ClassHelper
     {
-
-        public string ConstructByCsv(string input, char separator)
+        /// <summary>
+        /// 根据输入字符串和分隔符构造数据实体类
+        /// </summary>
+        /// <param name="input">包含各字段的字符串</param>
+        /// <param name="separator">分隔符</param>
+        /// <returns></returns>
+        public string ConstructByCsv(string input, char separator=',')
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(@"using System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Text;\nnamespace Data{\n");
@@ -20,5 +25,6 @@ namespace Tools.DataHelper
             sb.Append("}");
             return sb.ToString();
         }
+
     }
 }

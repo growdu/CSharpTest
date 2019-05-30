@@ -118,13 +118,28 @@ namespace Tools.DataHelper
         public static string GetFileName(this string input,bool hasSuffix=true)
         {
             int index = input.LastIndexOf("\\");
-            if (index == -1)
+            if (index == -1||index<2)
                 return input;
 
             if(hasSuffix)
                 return input.Substring(index + 1,input.Length-index-1) ;
 
             return input.Substring(index + 1, input.LastIndexOf('.')- index - 1);
+        }
+
+        /// <summary>
+        /// 转换为decimal
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToDecimal(this string input)
+        {
+            decimal dData = 0.0M;
+            if (input.Contains("E"))
+            {
+                dData = Convert.ToDecimal(Decimal.Parse(input.ToString(), System.Globalization.NumberStyles.Float));
+            }
+            return dData.ToString();
         }
 
     }
