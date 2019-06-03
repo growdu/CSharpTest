@@ -128,27 +128,30 @@ namespace DataStructures.BitArray
 {
     public class BitArray : IComparable, ICloneable, IEnumerator, IEnumerable
     {
-        private readonly bool[] field;      // the actual bit-field
+        /// <summary>
+        /// bitArray实际存储
+        /// </summary>
+        private readonly bool[] _field;      // the actual bit-field
+        /// <summary>
+        /// 位置参数
+        /// </summary>
         private int position = -1;  // position for enumerator
 
-
-        /*
-		 * constructor
-		 * input: length (N) of the array
-		 * output: none
-		 * purpose: setups the array with false-values.
-		 * */
+         /// <summary>
+         /// 构造包含n个位的bitArray,默认位值为false
+         /// </summary>
+         /// <param name="N"></param>
         public BitArray(int N)
         {
             if (N >= 1)
             {
 
-                field = new bool[N];
+                _field = new bool[N];
 
                 // fills up the field with zero-bits.
                 for (var i = 0; i < N; i++)
                 {
-                    field[i] = false;
+                    _field[i] = false;
                 }
 
             }
@@ -160,15 +163,10 @@ namespace DataStructures.BitArray
             }
         }
 
-
-        /*
-		 * constructor
-		 * input: a string sequence of 0's and 1's. 
-		 * output: none
-		 * purpose: setups the array with the input sequence.
-		 * assumes: sequence must been greater or equal to 1.
-		 * 			the sequence may only be allowed contains onese or zeros.
-		 * */
+         /// <summary>
+         /// 根据字符串构造bitArray，若字符为0或1位值为true，否则为false
+         /// </summary>
+         /// <param name="sequence"></param>
         public BitArray(string sequence)
         {
 
@@ -182,7 +180,7 @@ namespace DataStructures.BitArray
                 {
 
 
-                    field = new bool[sequence.Length];
+                    _field = new bool[sequence.Length];
                     Compile(sequence);
 
                 }
@@ -209,7 +207,7 @@ namespace DataStructures.BitArray
 		 * output: none
 		 * purpose: setups the bit-array with the input array.
 		 * */
-        public BitArray(bool[] bits) => field = bits;
+        public BitArray(bool[] bits) => _field = bits;
 
         /*
 		 * Compile
@@ -226,7 +224,7 @@ namespace DataStructures.BitArray
             sequence = sequence.Trim();
 
             // precondition I
-            if (sequence.Length <= field.Length)
+            if (sequence.Length <= _field.Length)
             {
 
                 // precondition II
@@ -235,9 +233,9 @@ namespace DataStructures.BitArray
 
 
                     // for appropriate scaling
-                    if (sequence.Length < field.Length)
+                    if (sequence.Length < _field.Length)
                     {
-                        var difference = field.Length - sequence.Length;
+                        var difference = _field.Length - sequence.Length;
 
                         for (var i = 0; i < difference; i++)
                         {
@@ -251,7 +249,7 @@ namespace DataStructures.BitArray
                     // actual compile procedure. 
                     for (var i = 0; i < sequence.Length; i++)
                     {
-                        field[i] = sequence[i] == '1';
+                        _field[i] = sequence[i] == '1';
                     }
                 }
                 else
@@ -282,18 +280,18 @@ namespace DataStructures.BitArray
             if (number > 0)
             {
 
-                // converts to binary representation
+                // converts to binary representation 转换成二进制形式
                 var binaryNumber = Convert.ToString(number, 2);
 
                 // precondition II
-                if (binaryNumber.Length <= field.Length)
+                if (binaryNumber.Length <= _field.Length)
                 {
 
                     // for appropriate scaling
-                    if (binaryNumber.Length < field.Length)
+                    if (binaryNumber.Length < _field.Length)
                     {
 
-                        var difference = field.Length - binaryNumber.Length;
+                        var difference = _field.Length - binaryNumber.Length;
 
                         for (var i = 0; i < difference; i++)
                         {
@@ -307,7 +305,7 @@ namespace DataStructures.BitArray
                     // actual compile procedure. 
                     for (var i = 0; i < binaryNumber.Length; i++)
                     {
-                        field[i] = binaryNumber[i] == '1';
+                        _field[i] = binaryNumber[i] == '1';
                     }
 
                 }
@@ -343,14 +341,14 @@ namespace DataStructures.BitArray
                 var binaryNumber = Convert.ToString(number, 2);
 
                 // precondition II
-                if (binaryNumber.Length <= field.Length)
+                if (binaryNumber.Length <= _field.Length)
                 {
 
                     // for appropriate scaling
-                    if (binaryNumber.Length < field.Length)
+                    if (binaryNumber.Length < _field.Length)
                     {
 
-                        var difference = field.Length - binaryNumber.Length;
+                        var difference = _field.Length - binaryNumber.Length;
 
                         for (var i = 0; i < difference; i++)
                         {
@@ -366,7 +364,7 @@ namespace DataStructures.BitArray
                     for (var i = 0; i < binaryNumber.Length; i++)
                     {
 
-                        field[i] = binaryNumber[i] == '1';
+                        _field[i] = binaryNumber[i] == '1';
 
                     }
 
@@ -387,22 +385,19 @@ namespace DataStructures.BitArray
         }
 
 
-        /**
-		 * ToString
-		 * input: none
-		 * output: a string representation of the inner data structure.
-		 * ToString: is the opposit of the Compile(...) method.
-		 * 
-		 * */
+/// <summary>
+/// 转换为二进制字符串
+/// </summary>
+/// <returns></returns>
         public override string ToString()
         {
             var ans = "";
 
             // creates return-string
-            for (var i = 0; i < field.Length; i++)
+            for (var i = 0; i < _field.Length; i++)
             {
 
-                if (field[i])
+                if (_field[i])
                 {
 
                     ans += "1";
@@ -423,14 +418,14 @@ namespace DataStructures.BitArray
 		 * Property
 		 * Length: returns the length of the current bit array.
 		 * */
-        public int Length => field.Length;
+        public int Length => _field.Length;
 
-        /**
-		 * Operator &
-		 * input: two bit-arrays with equal length.
-		 * output: bit-array that represents the bit by bit AND.
-		 * assumes: the arrays have the same length.
-		 * */
+/// <summary>
+/// 与操作
+/// </summary>
+/// <param name="one"></param>
+/// <param name="two"></param>
+/// <returns></returns>
         public static BitArray operator &(BitArray one, BitArray two)
         {
             var sequence1 = one.ToString();
@@ -510,12 +505,12 @@ namespace DataStructures.BitArray
         }
 
 
-        /**
-		 * Operator |
-		 * input: two bit-arrays with equal length.
-		 * output: bit-array that represents the bit by bit OR.
-		 * assumes: the arrays have the same length.
-		 * */
+/// <summary>
+/// 或操作
+/// </summary>
+/// <param name="one"></param>
+/// <param name="two"></param>
+/// <returns></returns>
         public static BitArray operator |(BitArray one, BitArray two)
         {
             var sequence1 = one.ToString();
@@ -595,11 +590,11 @@ namespace DataStructures.BitArray
 
         }
 
-        /**
-		 * Operator ~
-		 * input: BitArray
-		 * output: bitwise not 
-		 * */
+/// <summary>
+/// 取反
+/// </summary>
+/// <param name="one"></param>
+/// <returns></returns>
         public static BitArray operator ~(BitArray one)
         {
 
@@ -628,11 +623,12 @@ namespace DataStructures.BitArray
 
 
 
-        /**
-		 * Operator << (bitwise shift left)
-		 * input: a BitArray and a number of bits.
-		 * output: bitwise shifted BitArray. 
-		 * */
+/// <summary>
+/// 左移
+/// </summary>
+/// <param name="other"></param>
+/// <param name="n"></param>
+/// <returns></returns>
         public static BitArray operator <<(BitArray other, int n)
         {
 
@@ -651,11 +647,12 @@ namespace DataStructures.BitArray
 
         }
 
-        /**
-		 * operator ^ (bitwise XOR operation)
-		 * input: two bit-arrays.
-		 * output: BitArray 
-		 * */
+/// <summary>
+/// 异或
+/// </summary>
+/// <param name="one"></param>
+/// <param name="two"></param>
+/// <returns></returns>
         public static BitArray operator ^(BitArray one, BitArray two)
         {
             var sequence1 = one.ToString();
@@ -705,29 +702,37 @@ namespace DataStructures.BitArray
 
             for (var i = 0; i < one.Length; i++)
             {
-                switch (sequence1[i])
+                if (sequence1[i] == sequence2[i])
                 {
-                    case '0':
-                        if (sequence2[i] == '1')
-                        {
-                            result += '1';
-                        }
-                        else
-                        {
-                            result += '0';
-                        }
-                        break;
-                    case '1':
-                        if (sequence2[i] == '0')
-                        {
-                            result += '1';
-                        }
-                        else
-                        {
-                            result += '0';
-                        }
-                        break;
+                    result += '0';
                 }
+                else
+                {
+                    result += '1';
+                }
+                //switch (sequence1[i])
+                //{
+                //    case '0':
+                //        if (sequence2[i] == '1')
+                //        {
+                //            result += '1';
+                //        }
+                //        else
+                //        {
+                //            result += '0';
+                //        }
+                //        break;
+                //    case '1':
+                //        if (sequence2[i] == '0')
+                //        {
+                //            result += '1';
+                //        }
+                //        else
+                //        {
+                //            result += '0';
+                //        }
+                //        break;
+                //}
 
             }
 
@@ -738,11 +743,12 @@ namespace DataStructures.BitArray
             return ans;
         }
 
-        /**
-		 * Operator >> (bitwise shift right)
-		 * input: a BitArray and a number of bits.
-		 * output: bitwise shifted BitArray. 
-		 * */
+/// <summary>
+/// 右移
+/// </summary>
+/// <param name="other"></param>
+/// <param name="n"></param>
+/// <returns></returns>
         public static BitArray operator >>(BitArray other, int n)
         {
 
@@ -758,13 +764,12 @@ namespace DataStructures.BitArray
             return ans;
 
         }
-
-        /**
-		 * Operator == (equal)
-		 * input: two bit-arrays
-		 * output: returns true if there inputs are equal otherwise false.
-		 * assumes: the input bit-arrays must have same length.
-		 * */
+/// <summary>
+/// 等于
+/// </summary>
+/// <param name="one"></param>
+/// <param name="two"></param>
+/// <returns></returns>
         public static bool operator ==(BitArray one, BitArray two)
         {
             var status = true;
@@ -808,8 +813,8 @@ namespace DataStructures.BitArray
 		 * */
         public bool this[int offset]
         {
-            get => field[offset];
-            set => field[offset] = value;
+            get => _field[offset];
+            set => _field[offset] = value;
         }
 
         /*
@@ -822,7 +827,7 @@ namespace DataStructures.BitArray
             var counter = 0;
 
             // counting one-bits.
-            foreach (var bit in field)
+            foreach (var bit in _field)
             {
                 if (bit)
                 {
@@ -842,7 +847,7 @@ namespace DataStructures.BitArray
             var counter = 0;
 
             // counting zero-bits
-            foreach (var bit in field)
+            foreach (var bit in _field)
             {
                 if (!bit)
                 {
@@ -875,7 +880,7 @@ namespace DataStructures.BitArray
         public long ToInt64()
         {
             // Precondition
-            if (field.Length > 64)
+            if (_field.Length > 64)
             {
                 throw new Exception("ToInt: field is too long.");
             }
@@ -893,7 +898,7 @@ namespace DataStructures.BitArray
         public int ToInt32()
         {
             // Precondition
-            if (field.Length > 32)
+            if (_field.Length > 32)
             {
                 throw new Exception("ToInt: field is too long.");
             }
@@ -902,32 +907,27 @@ namespace DataStructures.BitArray
             return Convert.ToInt32(sequence, 2);
         }
 
-        /**
-		 * Reset
-		 * input: none
-		 * output: none
-		 * purpose: sets all bits on false.
-		 * */
+/// <summary>
+/// 重置bitArray的值
+/// </summary>
         public void ResetField()
         {
-            for (var i = 0; i < field.Length; i++)
+            for (var i = 0; i < _field.Length; i++)
             {
-                field[i] = false;
+                _field[i] = false;
             }
         }
 
 
-        /**
-		 * SetAll
-		 * input: a boolean flag
-		 * output: none
-		 * purpose: sets all bits on the value of the flag.
-		 **/
+        /// <summary>
+        /// 重置bitArray的值
+        /// </summary>
+        /// <param name="flag">位值</param>
         public void SetAll(bool flag)
         {
-            for (var i = 0; i < field.Length; i++)
+            for (var i = 0; i < _field.Length; i++)
             {
-                field[i] = flag;
+                _field[i] = flag;
             }
         }
 
@@ -978,7 +978,7 @@ namespace DataStructures.BitArray
 
                 for (var i = 0; i < Length; i++)
                 {
-                    if (field[i] != otherBitArray[i])
+                    if (_field[i] != otherBitArray[i])
                     {
                         status = false;
                     }
@@ -1011,7 +1011,7 @@ namespace DataStructures.BitArray
 
             for (var i = 0; i < Length; i++)
             {
-                theClone[i] = field[i];
+                theClone[i] = _field[i];
             }
 
             return theClone;
@@ -1027,7 +1027,7 @@ namespace DataStructures.BitArray
             {
                 try
                 {
-                    return field[position];
+                    return _field[position];
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -1043,7 +1043,7 @@ namespace DataStructures.BitArray
 		 * */
         public bool MoveNext()
         {
-            if (position + 1 < field.Length)
+            if (position + 1 < _field.Length)
             {
                 position++;
                 return true;
@@ -1078,6 +1078,11 @@ namespace DataStructures.BitArray
 		 * 			and Compile(sequence : string) 
 		 * 
 		 **/
+         /// <summary>
+         /// 将字符串转换为bool数组，char为0或1，对应的bool为true，否则为false
+         /// </summary>
+         /// <param name="sequence"></param>
+         /// <returns></returns>
         private bool Match(string sequence)
         {
             var status = true;

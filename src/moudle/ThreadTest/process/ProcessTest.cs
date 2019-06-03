@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Management;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ThreadTest
@@ -13,17 +14,60 @@ namespace ThreadTest
     {
         static void Main(string []args)
         {
-            ConcurrentDictionaryTest();
-            foreach (Process p in Process.GetProcesses())
-            {
-                Console.Write(p.ProcessName);
-                Console.Write("----");
-                Console.WriteLine(GetProcessUserName(p.Id));
+            ParallerTest();
+            //ConcurrentDictionaryTest();
+            //foreach (Process p in Process.GetProcesses())
+            //{
+            //    Console.Write(p.ProcessName);
+            //    Console.Write("----");
+            //    Console.WriteLine(GetProcessUserName(p.Id));
                 
-            }
-            Console.ReadKey();
+            //}
+            //Console.ReadKey();
             //Process[] pp = Process.GetProcessesByName("acrobat");
             //pp[0].Kill();
+        }
+
+        static void ParallerTest()
+        {
+            Console.WriteLine("This is main thread.");
+            Parallel.Invoke(()=>Hello1(),()=>Hello2());
+            Console.WriteLine("main thread over.");
+            Console.ReadKey();
+        }
+
+        static void Hello1()
+        {
+            Console.WriteLine("This is  thread1.");
+            var lists = new List<int>();
+            for (int i=0;i<10;i++)
+            {
+                lists.Add(i);
+               
+            }
+            Parallel.ForEach(lists, (item, p) =>
+            {
+                Console.WriteLine("hello1 " + item);
+                Thread.Sleep(145);
+            });
+            Console.WriteLine("thread1 over.");
+        }
+
+        static void Hello2()
+        {
+            Console.WriteLine("This is  thread2.");
+            var lists = new List<int>();
+            for (int i = 0; i < 10; i++)
+            {
+                lists.Add(i);
+
+            }
+            lists.ForEach(a =>
+            {
+                Console.WriteLine("hello2 " + a);
+                Thread.Sleep(145);
+            });
+            Console.WriteLine("thread2 over.");
         }
 
         private static string GetProcessUserName(int pID)

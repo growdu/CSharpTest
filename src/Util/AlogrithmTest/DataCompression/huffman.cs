@@ -32,12 +32,22 @@ namespace DC5
         /// </summary>
         public Huff LeftChild { get; set; }
 
+        /// <summary>
+        /// 构造哈夫曼节点
+        /// </summary>
+        /// <param name="data">节点数据</param>
+        /// <param name="frequency">频率（权重）</param>
         public Huff(string data, int frequency)
         {
             Data = data;
             Frequency = frequency;
         }
 
+        /// <summary>
+        /// 构建哈夫曼树
+        /// </summary>
+        /// <param name="leftChild"></param>
+        /// <param name="rightChild"></param>
         public Huff(Huff leftChild, Huff rightChild)
         {
             LeftChild = leftChild;
@@ -46,16 +56,18 @@ namespace DC5
             Frequency = leftChild.Frequency + rightChild.Frequency;
         }
     }
-    class Man
+
+    internal class Man
     {
         public List<string> Codec { get; set; } = new List<string>();
 
         public List<string> Data { get; set; } = new List<string>();
 
     }
+
     class Program
     {
-        static void Main()
+        static void Run(string[] args)
         {
             IList<Huff> list = new List<Huff>();
             Console.Write("Enter String: ");
@@ -161,7 +173,7 @@ namespace DC5
             }
             var stack = GetSortedStack(list);
             while (stack.Count > 1)
-            {
+            {//递归构造哈夫曼树
                 var leftChild = stack.Pop();
                 var rightChild = stack.Pop();
                 var parentNode = new Huff(leftChild, rightChild);
@@ -192,6 +204,12 @@ namespace DC5
             Console.WriteLine(cStr.Replace(" ", ""));
             Console.ReadKey();
         }
+
+        /// <summary>
+        /// 根据权重对哈夫曼节点排序，并入栈
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static Stack<Huff> GetSortedStack(IList<Huff> list)
         {
             for (var i = 0; i < list.Count; i++)
@@ -215,7 +233,13 @@ namespace DC5
             return stack;
         }
 
-
+        /// <summary>
+        /// 生成哈夫曼树（取两棵根结点权值最小的树作为左右子树构造一棵新的二叉树，置新的二叉树的根结点的权值为左右子树根结点的权值之和）
+        /// 引向左子树的分支为0，右子树的分支为1
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="code"></param>
+        /// <param name="man"></param>
         public static void GenerateCode(Huff parentNode, string code, Man man)
         {
             if (parentNode != null)
