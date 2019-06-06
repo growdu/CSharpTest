@@ -1,0 +1,1 @@
+﻿This project fork [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
