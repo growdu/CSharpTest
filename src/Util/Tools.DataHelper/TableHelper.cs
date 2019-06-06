@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -151,6 +152,29 @@ namespace Tools.DataHelper
         }
 
         #endregion
+
+        public static void CreateSqlTable(this DataTable dt,SqlConnection connection,string tableName)
+        {
+            int count = dt.Columns.Count;
+            string[] colNames = new string[count] ;
+            string[] colTypes = new string[count] ;
+            for (int i=0;i<count;i++)
+            {
+                DataColumn dc = dt.Columns[i];
+                colNames[i] = dc.ColumnName;
+                colTypes[i] = dc.DataType.ToString();
+            }
+            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( " + colNames[0] + " " + colTypes[0];
+            for (int i = 1; i < colNames.Length; i++)
+            {
+                queryString += ", " + colNames[i] + " " + colTypes[i];
+            }
+            queryString += "  ) ";
+            using (SqlCommand cmd=new SqlCommand(queryString,connection))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
 
     }
 }
