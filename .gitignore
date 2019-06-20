@@ -5,6 +5,6 @@ debug/
 \.vs/
 *.lnk
 obj/
-/log/log-2019-04-30.TXT
-/log/log-2019-04-30.LOG
-/packages
+packages/
+log/
+dll/
