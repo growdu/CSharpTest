@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\Components\Other\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>I:\dmp\Components\Other\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\..\Components\Other\log4net.dll</HintPath>
+      <HintPath>I:\dmp\Components\Other\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

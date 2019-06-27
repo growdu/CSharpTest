@@ -53,5 +53,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Util\Tools.DataHelper\Tools.DataHelper.csproj">
+      <Project>{3980fc46-64ba-41ca-a797-e3d7661ecbfc}</Project>
+      <Name>Tools.DataHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
