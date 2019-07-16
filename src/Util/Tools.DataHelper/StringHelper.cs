@@ -106,6 +106,9 @@ namespace Tools.DataHelper
         /// <returns></returns>
         public static int ToInt(this string input)
         {
+            if (!input.IsInt())
+                return 0;
+
             return int.Parse(input);
         }
 
